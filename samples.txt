@@ -1,0 +1,27 @@
+
+app.get('/', (req, res)=>{
+    res.send('Hola API GET');
+});
+
+
+app.post('/', (req, res)=>{
+    res.send('Hola API POST');
+});
+
+
+app.get('/saludar', (req, res)=>{
+    console.log('req', req);
+    res.send(`Hola ${req.query.nombre}`);
+});
+
+app.post('/sumar', (req, res)=>{
+    console.log('req', req);
+    const suma = req.body.numero1 + req.body.numero2;
+    res.send(`Hola la suma es ${suma}`);
+});
+
+app.post('/info/:idUser/:idAccount', (req, res)=>{
+    console.log('req', req);
+    const idUser = undefined;
+    res.send(`ID Usuario ${req.params.idUser}, Cuenta ${req.params.idAccount}`);
+});
