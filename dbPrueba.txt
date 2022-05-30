@@ -1,0 +1,60 @@
+db.usuarios.insertOne({
+    nombre: "Maria",
+    edad: 25,
+    soltera: true,
+    cedula: "123456789"
+})
+db.usuarios.insertOne({
+    nombre: "lucas",
+    edad: 33,
+    soltera: false,
+    cedula: "13456789"
+})
+
+db.usuarios.find({cedula: "13456789"}).pretty()
+db.usuarios.find({_id: ObjectId("62922bef38d6a0dd568869f9")}).pretty()
+
+db.usuarios.deleteOne({_id: ObjectId("6292261738d6a0dd568869f7")})
+
+//Update One
+db.usuarios.updateOne(
+    {_id: ObjectId("62922bce38d6a0dd568869f8")},
+    {$set:{edad:26}})
+
+//Update all
+db.usuarios.updateMany(
+    {},
+    {$set:{edad:26}})
+
+//Collections
+
+--users
+    { name:"Hector Gonzalez",
+      email:"hg1626@gmail.com",
+      movil:"31756589",
+      password:"12345",      
+      UserType:1
+    }
+
+--properties
+    {   city:201
+        zone:101,
+        propertyType:1, 
+        bussinessType:2,
+        value:750000000,
+        image:[{img1}]
+        user_id:123
+    }
+--detailProperties
+    {
+        description:[{}]
+        property_Id:[{}]
+    }
+--favorites
+    {
+        comments:"Interesado xxxxxxxxx"
+        property_Id:[{}]
+        user_id: "Object_Id"
+    }
+--typeProperties
+--bussynessType

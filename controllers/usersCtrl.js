@@ -1,19 +1,19 @@
 const { auth, register, forget, reset, update, inactive } = require('../services/userService'); 
 
-const Register = (req, res) =>{
+const Register = async (req, res) =>{
     try {
         const user = req.body;        
-        const { statusHttp, response} = register(user.name, user.email, user.movil, user.password, user.confirmPassword, user.typeUser);
+        const { statusHttp, response} = await register(user);
         res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
     }
 };
 
-const login = (req, res) =>{
+const login = async (req, res) =>{
     try {
         const user = req.body;
-        const { statusHttp, response} = auth(user.email, user.password);
+        const { statusHttp, response} = await auth(user);
         res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
