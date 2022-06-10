@@ -1,4 +1,4 @@
-const { auth, register, forget, reset, update, inactive } = require('../services/userService'); 
+const { auth, register, forget, reset, update, inactive, info } = require('../services/userService'); 
 
 const Register = async (req, res) =>{
     try {
@@ -11,14 +11,25 @@ const Register = async (req, res) =>{
 };
 
 const login = async (req, res) =>{
-    try {
+    try {        
         const user = req.body;
-        const { statusHttp, response} = await auth(user);
+        console.log(user);
+        const { statusHttp, response} = await auth(user.email, user.password);
         res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
     }
 };
+
+const getUser = async (req, res) => {
+    try {
+        const {id} = req.query; // es igual const id = req.query.id
+        const {statusHttp, response} = await info(id);
+        res.status(statusHttp).json(response);
+    } catch (error) {
+        
+    }
+}
 
 
 const forgetPassword = (req, res) =>{
@@ -64,6 +75,7 @@ const Inactive = (req, res) =>{
 
 module.exports = {
     login,
+    getUser,
     Register,
     forgetPassword,
     resetPassword,

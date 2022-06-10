@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {SearchId, Register, RegisterComments, SearchTBT, Update, Delete} = require('../controllers/propertiesCtrl');
+const {SearchId, GetAll, Register, Update, Delete} = require('../controllers/propertiesCtrl');
 
 router.post('/', Register);
-router.post('/:idUser/:idProperty', RegisterComments);
+router.get('/', GetAll);
 router.get('/:idProperty', SearchId);
-router.get('/', SearchTBT);
-router.put('/', Update);
 router.delete('/:idUser/:idProperty', Delete);
+router.put('/:idUser/:idProperty', Update);
 
 module.exports = router;

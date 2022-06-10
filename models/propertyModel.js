@@ -9,14 +9,14 @@ const PropertySchema = new Schema(
         propertyType: Number, 
         bussinessType:Number,        
         mainImage:[String],
-        owner_id: {
+        ownerId: {
             type: Schema.Types.ObjectId,
             ref: 'users'
         },
         value: Number,
         shortDescription: String,
         description: String,
-
+        status: Number
     },
 
     { timestamps: true}

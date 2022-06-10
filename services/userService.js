@@ -4,16 +4,24 @@ const UserModel = require('..//models/userModel');
 
 
 
-const auth = async (userData) => {
+const auth = async (email, password) => {   
     try {
-        if(await validateLogin(userData.email, userData.password)){                      
-            return responseOk({msg: 'Welcome'})            
-        }       
-        return responseError(401, "Credentials Incorrects");
+        const user = await UserModel.findOne({email: email, password: password});        
+        return responseOk({ token: "xxxxx12345", user})
     } catch (error) {
-        return responseError(500, "Server Errror");
+        console.log(error);
+        return responseError(501, "Server Errror");
     }          
 };
+
+const info = async (id) => {
+    try {
+        const user = await UserModel.findById(id);
+        return responseOk({user});
+    } catch (error) {
+        return responseError(500, "Server Errror");
+    }
+}
 
 const register = async (userData) => {
     try {
@@ -76,6 +84,7 @@ const validateLogin = async (email, password) => {
 
 module.exports = {
     auth,
+    info,
     register,
     forget,
     reset,
