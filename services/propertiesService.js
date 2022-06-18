@@ -8,8 +8,7 @@ const addRegister = async (propertyData) => {
         const property = new PropertyModel(propertyData);
         await property.save();
         return responseOk({property: 'Property Register with exit'}); 
-    } catch (error) {
-        console.log(error);
+    } catch (error) {        
         return responseError(500, "Server Error");
     }         
 }
@@ -75,8 +74,7 @@ const deleteProperty = async(propertyDel) => {
 
 const update = async (userId, propertyId, propertyUpdate) => {
     const ownerId =  userId;
-    const _id =  propertyId;
-    //const Valor = Number(propertyUpdate.value);
+    const _id =  propertyId;    
     const property = await PropertyModel.findOne({_id, ownerId});
     if (!property){
         return responseError(401, 'Property or user owner not found for Update');

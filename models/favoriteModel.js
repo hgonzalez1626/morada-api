@@ -5,11 +5,13 @@ const FavoriteSchema = new Schema(
     {             
         property_id: {
             type: Schema.Types.ObjectId,
-            ref: 'properties'
+            ref: 'properties',
+            require: true
         },
         user_id: {
             type: Schema.Types.ObjectId,
-            ref: 'users'
+            ref: 'users',
+            require: true
         }
     },
 

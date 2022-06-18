@@ -8,4 +8,5 @@ router.get('/:idProperty', SearchId);
 router.delete('/:idUser/:idProperty', Delete);
 router.put('/:idUser/:idProperty', Update);
 
+
 module.exports = router;

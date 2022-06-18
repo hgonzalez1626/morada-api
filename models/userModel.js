@@ -3,7 +3,10 @@ const { Schema } = moongoose;
 
 const UserSchema = new Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            trim: true
+        },
         documentType: String,
         document: String,
         email: {
@@ -19,7 +22,6 @@ const UserSchema = new Schema(
         role: {
             type: Number,
             default: 1
-
         }
     },
     { timestamps: true}

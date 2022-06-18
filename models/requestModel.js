@@ -2,15 +2,20 @@ const moongoose = require("mongoose");
 const { Schema } = moongoose;
 
 const RequiereSchema = new Schema(
-    { 
-        comments: String,            
+    {                     
         property_id: {
             type: Schema.Types.ObjectId,
-            ref: 'properties'
+            ref: 'properties',
+            required: true
         },
         user_id: {
             type: Schema.Types.ObjectId,
-            ref: 'users'
+            ref: 'users',
+            required: true
+        },
+        comments: {
+            type: String,
+            required: true
         }
     },
 

@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const responseOk = require('../utils/responseOk');
 const responseError = require('../utils/responseError');
 const UserModel = require('..//models/userModel');
@@ -6,8 +8,20 @@ const UserModel = require('..//models/userModel');
 
 const auth = async (email, password) => {   
     try {
-        const user = await UserModel.findOne({email: email, password: password});        
-        return responseOk({ token: "xxxxx12345", user})
+        const user = await UserModel.findOne({email: email});
+        if(user){
+            const match = await bcrypt.compare(password, user.password);
+            if(match){
+                const payload = {
+                    id: user._id,
+                    role: user.role
+                };
+                const token = jwt.sign(payload, process.env.JWT_SECRET);                
+                return responseOk({ token, role: user.role})
+            }                               
+        }
+        return responseError(401, "user unauthorized");
+       
     } catch (error) {
         console.log(error);
         return responseError(501, "Server Errror");
@@ -16,7 +30,7 @@ const auth = async (email, password) => {
 
 const info = async (id) => {
     try {
-        const user = await UserModel.findById(id);
+        const user = await UserModel.findById(id).select("-password -documentType -document");
         return responseOk({user});
     } catch (error) {
         return responseError(500, "Server Errror");
@@ -28,6 +42,8 @@ const register = async (userData) => {
         if(await validateEmail(userData.email)){
             return responseError(401, "Email exist");
         }
+        const passwordEncrypted = await bcrypt.hash(userData.password, 11)
+        userData.password = passwordEncrypted;
         const user = new UserModel(userData);
         await user.save();
         return responseOk({user})
