@@ -1,4 +1,5 @@
-const { auth, register, forget, reset, update, inactive, info } = require('../services/userService'); 
+const { auth, register, confirm, forget, check, reset, update, inactive, info } = require('../services/userService'); 
+
 
 const Register = async (req, res) =>{
     try {
@@ -10,13 +11,22 @@ const Register = async (req, res) =>{
     }
 };
 
-const login = async (req, res) =>{
-    try {        
-        const user = req.body;        
-        const { statusHttp, response} = await auth(user.email, user.password);
+const Confirm = async (req, res) =>{
+    try {
+        const userToken = req.params.token;        
+        const { statusHttp, response} = await confirm(userToken);
         res.status(statusHttp).json(response);
     } catch (error) {
-        console.log(error);
+        res.status(500).send(error);      
+    }
+};
+
+const Authenticate = async (req, res) =>{
+    try {
+        const user = req.body;        
+        const { statusHttp, response} = await auth(user);
+        res.status(statusHttp).json(response);
+    } catch (error) {        
         res.status(500).send(error);      
     }
 };
@@ -31,21 +41,31 @@ const getUser = async (req, res) => {
     }
 }
 
-
-const forgetPassword = (req, res) =>{
+const forgetPassword = async (req, res) =>{
     try {
         const user = req.body;
-        const { statusHttp, response} = forget(user.email, user.movil);
+        const { statusHttp, response} = await forget(user);
         res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
     }
 };
 
-const resetPassword = (req, res) =>{
+const checkToken = async (req, res) =>{
     try {
-        const user = req.body;
-        const { statusHttp, response} = reset(user.email, user.password, user.confirmPassword);
+        const userToken = req.params.token;        
+        const { statusHttp, response} = await check(userToken);
+        res.status(statusHttp).json(response);
+    } catch (error) {
+        res.status(500).send(error);      
+    }
+};
+
+const resetPassword = async (req, res) =>{
+    try {
+        const token = req.params.token;
+        const password = req.body.password;
+        const { statusHttp, response} = await reset(token, password);
         res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
@@ -74,10 +94,12 @@ const Inactive = (req, res) =>{
 };
 
 module.exports = {
-    login,
+    Authenticate,
     getUser,
     Register,
+    Confirm,
     forgetPassword,
+    checkToken,
     resetPassword,
     Update,
     Inactive

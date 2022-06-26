@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const authVerify = require('../middleware/authVerify');
-const {login, getUser, Register, forgetPassword, resetPassword, Update, Inactive} = require('../controllers/usersCtrl');
+const {Authenticate, getUser, Register, Confirm, forgetPassword, checkToken, resetPassword, Update, Inactive} = require('../controllers/usersCtrl');
 
 router.post('/signup', Register);
-router.post('/login', login);
+router.get('/confirm/:token', Confirm);
+router.post('/login', Authenticate);
 router.get('/info', authVerify, getUser);
-router.get('/login/forget', forgetPassword);
-router.put('/login/forget', resetPassword);
+router.post('/login/forgetPassword', forgetPassword);
+router.route('/login/forgetPassword/:token').get(checkToken).post(resetPassword);
 router.put('/signup', Update);
 router.put('/signup/:token', Inactive);
 

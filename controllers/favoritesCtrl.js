@@ -1,4 +1,4 @@
-const { addFavorites } = require('../services/favoriteService'); 
+const { addFavorites, searchFavorite } = require('../services/favoriteService'); 
 
 const RegisterFavorites = async (req, res) => {
     try {
@@ -11,6 +11,18 @@ const RegisterFavorites = async (req, res) => {
     }
 }
 
+const SearchFavorites = async (req, res) => {
+    try {
+        const idUser = req.params.idUser;
+        //const idProperty = req.params.idProperty;
+        const { statusHttp, response} = await searchFavorite(idUser); 
+        res.status(statusHttp).json(response);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
 module.exports = {    
-    RegisterFavorites
+    RegisterFavorites,
+    SearchFavorites
 }
