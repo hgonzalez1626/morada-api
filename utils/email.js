@@ -4,16 +4,16 @@ const emailRegister = async (datos) =>{
     const { email, name, token } = datos;
 
     const transport = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST,
-        port: process.env.EMAIL_PORT,
+        host: process.env.EMAIL_HOST_O,
+        port: process.env.EMAIL_PORT_O,
         auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
+            user: process.env.EMAIL_USER_O,
+            pass: process.env.EMAIL_PASS_O
           }
       });
 
       const info = await transport.sendMail({
-        from: '"Morada - Welcome" <info@morada.com>',
+        from: `"Morada - Welcome" <${process.env.EMAIL_USER_O}>`,
         to: email,
         subject: "Confirm your account",
         text: "Comprueba tu cuenta en Morada",
@@ -31,16 +31,16 @@ const emailForgetPassword = async (datos) =>{
   const { email, name, token } = datos;
 
   const transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    host: process.env.EMAIL_HOST_O,
+    port: process.env.EMAIL_PORT_O,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: process.env.EMAIL_USER_O,
+        pass: process.env.EMAIL_PASS_O
       }
     });
 
     const info = await transport.sendMail({
-      from: '"Morada - Welcome" <info@morada.com>',
+      from: process.env.EMAIL_USER_O,
       to: email,
       subject: "Recovery Password",
       text: "Recovery Password en Morada",

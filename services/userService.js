@@ -107,7 +107,7 @@ const auth = async (userData) => {
      //Check password
     if(await user.checkPassword(password)){
          return responseOk({ _id: user._id,
-                             nombre: user.name,
+                             name: user.name,
                              email: user.email,
                              rol: user.role,
                              token: GenarateJWT(user._id),
@@ -117,12 +117,11 @@ const auth = async (userData) => {
     }     
  };
  
- 
 
 const info = async (id) => {
     try {
-        const user = await UserModel.findById(id).select("-password -documentType -document");
-        return responseOk({user});
+        const user = await UserModel.findById(id).select("-password -documentType -document -confirmado -token -createdAt -updatedAt -__v");
+        return responseOk(user);        
     } catch (error) {
         return responseError(500, "Server Errror");
     }
@@ -152,14 +151,6 @@ const validateEmail = async (email) => {
     }
 }
 
-const validateLogin = async (email, password) => {
-    try {
-        const checkLogin = await UserModel.findOne({email: email, password: password})
-        return checkLogin ? true : false;
-    } catch (error) {
-        return responseError(500, "Server Error");
-    }       
-}
 
 module.exports = {
     auth,

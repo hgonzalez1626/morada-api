@@ -36,6 +36,7 @@ const getUser = async (req, res) => {
         const {id} = req.payload;         
         const {statusHttp, response} = await info(id);
         res.status(statusHttp).json(response);
+        console.log(response);
     } catch (error) {
         
     }

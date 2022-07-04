@@ -1,24 +1,39 @@
 const responseOk = require('../utils/responseOk');
 const responseError = require('../utils/responseError');
 const PropertyModel = require('..//models/propertyModel');
+const UserModel = require('..//models/userModel');
 
-const addRegister = async (propertyData) => {
+const addRegister = async (propertyData, id) => {
 
     try {        
         const property = new PropertyModel(propertyData);
+        property.ownerId = (id);        
         await property.save();
-        return responseOk({property: 'Property Register with exit'}); 
-    } catch (error) {        
-        return responseError(500, "Server Error");
+        return responseOk(property); 
+    } catch (error) {            
+        return responseError(500, "Server Error");        
     }         
+}
+
+
+const getPropertiesOwner = async (ownerId) => {
+    try {
+        const query = {ownerId: ownerId.id};
+        console.log(query);          
+        const properties = await PropertyModel.find(query);
+        return responseOk(properties);
+    } catch (error) {
+        console.log(error)
+        return responseError(500, 'Server Error');
+    }
 }
 
 const getProperties = async (filter) => {
     try {
-        const query = buildQueryFilter(filter);
+        const query = buildQueryFilter(filter);        
         const properties = await PropertyModel.find(query);
         return responseOk(properties);
-    } catch (error) {
+    } catch (error) {        
         return responseError(500, 'Server Error');
     }
 }
@@ -91,6 +106,7 @@ const update = async (userId, propertyId, propertyUpdate) => {
 
 module.exports = {    
     addRegister,
+    getPropertiesOwner,
     getProperties,
     getProperty,       
     update,

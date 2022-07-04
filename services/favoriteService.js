@@ -21,9 +21,8 @@ const addFavorites = async (id, propertyFavorite) => {
     }               
 }
 
-
 const searchFavorite = async (id) => {
-  
+  console.log(id)
   try {
     const favoritesByUser = await FavoriteModel.aggregate([
       {
@@ -34,8 +33,8 @@ const searchFavorite = async (id) => {
       {
         $lookup: {
           from: "properties",
-          localField: "property_id", // favorites
-          foreignField: "_id", // property
+          localField: "property_id", // foreing favorites
+          foreignField: "_id", // id_ favorites
           as: "property",
         },
       },
@@ -51,6 +50,7 @@ const searchFavorite = async (id) => {
     return responseOk(favoritesByUser); 
     //console.log("favoritesByUser", favoritesByUser);
   } catch (error) {
+    console.log(error)
     return responseError(500, "Server Error");
   }
 };

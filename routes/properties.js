@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {SearchId, GetAll, Register, Update, Delete} = require('../controllers/propertiesCtrl');
+const authVerify = require('../middleware/authVerify');
+const {SearchId, GetAll, GetPropertiesOwner, Register, Update, Delete} = require('../controllers/propertiesCtrl');
 
-router.post('/', Register);
+router.post('/', authVerify, Register);
 router.get('/', GetAll);
+router.get('/Owner', authVerify, GetPropertiesOwner);
 router.get('/:idProperty', SearchId);
 router.delete('/:idUser/:idProperty', Delete);
 router.put('/:idUser/:idProperty', Update);

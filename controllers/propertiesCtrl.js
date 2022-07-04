@@ -1,11 +1,22 @@
-const { addRegister, getProperties, getProperty, update, deleteProperty } = require('../services/propertiesService'); 
+const { addRegister, getProperties, getPropertiesOwner, getProperty, update, deleteProperty } = require('../services/propertiesService'); 
 
 const Register = async (req, res) => {
     try {
         const property = req.body;
-        const { statusHttp, response} = await addRegister(property); 
+        const {id} = req.payload;                
+        const { statusHttp, response} = await addRegister(property, id); 
         res.status(statusHttp).json(response);
     } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
+
+const GetPropertiesOwner = async (req, res) => {
+    try {                                
+        const { statusHttp, response} = await getPropertiesOwner(req.payload); 
+        res.status(statusHttp).json(response);
+    } catch (error) {        
         res.status(500).send(error);
     }
 }
@@ -54,6 +65,7 @@ const Update = async (req, res) => {
 
 module.exports = {    
     Register,
+    GetPropertiesOwner,
     GetAll,
     SearchId,         
     Update,

@@ -12,12 +12,10 @@ const RegisterFavorites = async (req, res) => {
 }
 
 const SearchFavorites = async (req, res) => {
-    try {
-        const idUser = req.params.idUser;
-        //const idProperty = req.params.idProperty;
-        const { statusHttp, response} = await searchFavorite(idUser); 
+    try {                                
+        const { statusHttp, response} = await searchFavorite(req.payload); 
         res.status(statusHttp).json(response);
-    } catch (error) {
+    } catch (error) {        
         res.status(500).send(error);
     }
 }

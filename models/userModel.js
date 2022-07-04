@@ -31,7 +31,7 @@ const UserSchema = new Schema(
         phone: String,
         role: {
             type: Number,
-            default: 1
+            default: 3
 
         },
         token: String,
@@ -42,7 +42,7 @@ const UserSchema = new Schema(
     },
     { timestamps: true}
 );
-
+    
 UserSchema.pre('save', async function(next){
     if(!this.isModified("password")){
         next();

@@ -56,5 +56,10 @@ db.usuarios.updateMany(
         property_Id:[{}]
         user_id: "Object_Id"
     }
+--db.city.insertOne({
+    codigo: 1,
+    name: "Medellin"
+    
+})
 --typeProperties
 --bussynessType
