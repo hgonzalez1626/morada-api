@@ -6,7 +6,7 @@
 
 ## API References
 
-## Usuarios
+### USER
 
 Method | Endpoint       | Data                     | Auth Required              | Comments | Status
 ------ | --------       | -----------

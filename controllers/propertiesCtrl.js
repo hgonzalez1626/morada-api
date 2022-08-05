@@ -1,4 +1,10 @@
-const { addRegister, getProperties, getPropertiesOwner, getProperty, update, deleteProperty } = require('../services/propertiesService'); 
+
+const { addRegister, 
+        getProperties, 
+        getPropertiesOwner, 
+        getProperty, 
+        update, 
+        deleteProperty } = require('../services/propertiesService'); 
 
 const Register = async (req, res) => {
     try {
@@ -35,10 +41,31 @@ const SearchId = async (req, res) =>{
     try {        
         const idProperty = req.params.idProperty;        
         const { statusHttp, response} = await getProperty(idProperty);
-        res.status(statusHttp).json({msg: response});
+        res.status(statusHttp).json(response);
     } catch (error) {
         res.status(500).send(error);      
     }
+};
+
+const uploadImage = (req, res) =>{
+    if(!req.files){
+        res.status(400).send('Not files uploads');
+    }
+
+    const propertyImage = req.files.propertyImage;
+    //console.log('mimetype', propertyImage.mimetype)
+    const nameSplited = propertyImage.name.split('.');
+    const ext = nameSplited[nameSplited.length - 1];
+    const newFileName = Math.floor(Date.now()) + '.' + ext;
+    console.log('ext:',newFileName)
+
+    const path = __dirname + '/../public/Images/' + newFileName;
+    propertyImage.mv(path, (err)=>{
+        if(err){
+            return res.status(500).send(err)
+        }
+        res.send({fileName: newFileName})
+    })
 };
 
 const Delete = async (req, res) => {
@@ -69,5 +96,6 @@ module.exports = {
     GetAll,
     SearchId,         
     Update,
-    Delete
+    Delete,
+    uploadImage
 }
