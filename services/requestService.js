@@ -4,10 +4,13 @@ const RequestModel = require('../models/requestModel');
 
 const addRequest = async (id, propertyId, propertyComment) => {
     const user_id =  id;
-    const property_id =  propertyId.idProperty;   
-    //const request = await RequestModel.findOne({property_id: property_id, user_id: user_id});
+    const property_id =  propertyId.idProperty;    
     if (propertyComment == ""){
         return responseError(401, 'Property request need to comment');
+    }
+    const request = await RequestModel.findOne({property_id: property_id, user_id: user_id});
+    if (request){
+        return responseError(401, 'Property request for user exist');
     }
     try {        
         const request = new RequestModel({property_id: property_id, user_id: user_id, comments: propertyComment});
